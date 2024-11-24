@@ -11,11 +11,12 @@ import random
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
+from torchvision.models import VGG13_Weights, ResNet18_Weights
 
 ## A function that loads a checkpoint and rebuilds the model
 
 def load_checkpoint(filepath):
-	model = models.resnet18(pretrained=True)
+	model = models.resnet18(weights=ResNet18_Weights.DEFAULT)
 
 	
 	checkpoint = torch.load(filepath)
@@ -53,7 +54,6 @@ def predict(image_path, model, topk=5):
     ''' Predict the class (or classes) of an image using a trained deep learning model.
     '''
     
-    # TODO: Implement the code to predict the class from an image file
     image_processed = process_image(image_path).to(device)
 
     # Getting the image for 1 format
@@ -94,7 +94,7 @@ parser = argparse.ArgumentParser(description="This program predicts flowers' nam
 								 prog='predict')
 
 ## Get path of image
-parser.add_argument('path_to_image', action="store", nargs='?', default='flowers/test/99/image_07833.jpg', help="path/to/image")
+parser.add_argument('path_to_image', action="store", nargs='?', default='flowers/test/4/image_05637.jpg', help="path/to/image")
 
 parser.add_argument('path_to_checkpoint', action="store", nargs='?', default='checkpoint.pth', help="path/to/checkpoint")
 ## set top_k

@@ -7,6 +7,9 @@ import torch.nn.functional as F
 from torchvision import datasets, transforms, models
 import os
 from collections import OrderedDict
+from PIL import ImageFile
+from torchvision.models import VGG13_Weights, ResNet18_Weights
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 
@@ -35,7 +38,7 @@ parser.add_argument('--arch', action="store", default="resnet18", choices=['vgg1
 ## Argument for setting hyperparameters
 parser.add_argument('--learning_rate', action="store", default="0.003", type=float, help="This sets the learning rate",
 					 dest="learning_rate")
-parser.add_argument('--hidden_units', action="store", nargs=3, default=[1024, 512], type=int, help="Enter the hidden units parameters",
+parser.add_argument('--hidden_units', action="store", nargs=3, default=[1024, 512, 256], type=int, help="Enter the hidden units parameters",
 					 dest="hidden_units")
 parser.add_argument('--epochs', action="store", default=3, type=int, help="This sets the epochs of training", dest="epochs")
 
@@ -113,11 +116,11 @@ dataloaders = {category:torch.utils.data.DataLoader(image_datasets[category], ba
 # download architecture
 if arch == 'vgg13':
 	print('Downloading VGG-13 pretrained model ...')
-	model = models.vgg13(pretrained=True)                                                                     
+	model = models.vgg13(weights=VGG13_Weights.DEFAULT)                                                                     
 
 if arch == 'resnet18':
 	print('Downloading RESNET18 ...')
-	model = models.resnet18(pretrained=True)
+	model = models.resnet18(weights=ResNet18_Weights.DEFAULT)
 
 
 # detting device based on user args received
